@@ -3,54 +3,49 @@ package com.ll.sideproject.global.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfig {
 
-    // 비밀번호 인코더 (BCrypt 사용)
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // 기본 사용자 등록 (In-Memory)
-    @Bean
-    public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
-        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(User.withUsername("admin")
-                .password(passwordEncoder.encode("password")) // "password"를 BCrypt로 인코딩
-                .roles("ADMIN")
-                .build());
-        manager.createUser(User.withUsername("user")
-                .password(passwordEncoder.encode("password")) // "password"를 BCrypt로 인코딩
-                .roles("USER")
-                .build());
-        return manager;
-    }
-
-    // Security Filter Chain 설정
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                // CSRF는 기본적으로 활성화됨
+                // CSRF 비활성화 (REST API에 적합)X
+                .csrf(csrf -> csrf.disable())
+
+                // 세션 비활성화 (JWT 기반 인증을 사용하기 위해)
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+
+                // 경로에 따른 접근 권한 설정
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/public/**", "/login", "/register").permitAll() // 비인증 접근 허용
-                        .anyRequest().authenticated() // 그 외 요청은 인증 필요
+                        .requestMatchers("/", "/public/**", "/swagger-ui/**", "/v3/api-docs/**", "/login", "/register", "/oauth2/**").permitAll() // Swagger & OAuth2 경로 허용
+                        .anyRequest().authenticated() // 나머지 경로는 인증 필요
                 )
-                .formLogin(form -> form
-                        .loginPage("/login") // 커스텀 로그인 페이지 경로
-                        .defaultSuccessUrl("/") // 로그인 성공 시 이동 경로
-                        .permitAll()
-                )
+
+                // JWT 필터 추가 (추후 구현 예정)
+                //.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+
+                // OAuth2 로그인 설정 (소셜 로그인 고려 시)
+//                .oauth2Login(oauth2 -> oauth2
+//                        .loginPage("/login")
+//                        .defaultSuccessUrl("/")
+//                )
+
+                // 로그아웃 설정
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout")
+                        .logoutSuccessUrl("/")
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")
                 );

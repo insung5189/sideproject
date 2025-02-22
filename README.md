@@ -19,3 +19,4 @@
 ---
 
 - [개발로그 작성 및 SecurityConfig 초기화] README.md로 개발로그 작성 및 SecurityConfig 초기화
+- [oAuth, swagger-ui, RESTAPI 관련 설정 추가] oAuth, swagger-ui, RESTAPI 관련 설정 추가
