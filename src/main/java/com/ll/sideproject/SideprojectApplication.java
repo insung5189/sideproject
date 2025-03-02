@@ -48,6 +48,7 @@ public class SideprojectApplication {
 		System.setProperty("DB_PASSWORD", setPropertyDbPassword);
 
 		System.out.println("현재 서버 IP: " + maskIp(currentIp)); // IP 일부만 노출
+		System.out.println("현재 서버 IP: " + currentIp); // IP 일부만 노출
 		System.out.println("현재 실행 환경: " + activeProfile);
 		System.out.println("DB_URL: " + System.getProperty("DB_URL"));
 
