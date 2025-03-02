@@ -3,8 +3,13 @@ server:
 
 spring:
   profiles:
-    active: dev  # 기본적으로 dev 환경에서 실행되도록 설정
-    include: secret
+    active: ${SPRING_PROFILES_ACTIVE:dev}  # 기본적으로 dev 환경에서 실행되도록 설정
+#    include: secret
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.mariadb.jdbc.Driver
   thymeleaf:
     cache: false
     prefix: file:src/main/resources/templates/

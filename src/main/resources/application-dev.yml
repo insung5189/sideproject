@@ -1,9 +1,5 @@
 spring:
   datasource:
-    url: ${LOCAL_DB_URL:jdbc:mariadb://localhost:3306/sideproject}
-    username: ${LOCAL_DB_USERNAME:root}
-    password: ${LOCAL_DB_PASSWORD:defaultpassword}
-    driver-class-name: org.mariadb.jdbc.Driver
     hikari:
       maximum-pool-size: 10      # 커넥션 풀 사이즈
       minimum-idle: 5            # 최소 유휴 커넥션
