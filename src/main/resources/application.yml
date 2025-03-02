@@ -13,6 +13,12 @@ spring:
       enabled: true
     restart:
       enabled: true
+  servlet:
+    multipart:
+      max-file-size: 100MB  # multipart 설정 적용
+      max-request-size: 500MB
+  jackson:
+    time-zone: Asia/Seoul  # JSON 타임존 설정
 
 springdoc:
   api-docs:
@@ -28,11 +34,3 @@ springdoc:
     csrf:
       enabled: false  # CSRF 보안 해제
   paths-to-match: /**
-
-spring:
-  servlet:
-    multipart:
-      max-file-size: 100MB  # multipart 설정 적용
-      max-request-size: 500MB
-  jackson:
-    time-zone: Asia/Seoul  # JSON 타임존 설정
