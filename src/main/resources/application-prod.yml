@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:mariadb://mariadb_1:3306/sideproject}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:defaultpassword}
+    driver-class-name: org.mariadb.jdbc.Driver
+    hikari:
+      maximum-pool-size: 20       # [배포 환경] 커넥션 풀을 더 크게 설정
+      minimum-idle: 10            # 최소 유휴 커넥션
+      idle-timeout: 30000         # 유휴 커넥션 타임아웃
+      pool-name: HikariCP
+      max-lifetime: 1800000       # 커넥션 최대 수명
+
+  jpa:
+    database-platform: org.hibernate.dialect.MariaDBDialect
+    hibernate:
+      ddl-auto: validate          # [배포 환경] 스키마 자동 변경 방지
+    show-sql: false               # [배포 환경] SQL 로깅 비활성화
+    properties:
+      hibernate:
+        format_sql: false
+        use_sql_comments: false   # [배포 환경] 쿼리 주석 추가 안함
+        jdbc:
+          time_zone: UTC          # 타임존 설정
