@@ -2,6 +2,9 @@ server:
   port: 7070
 
 spring:
+  spring:
+    config:
+      import: optional:.env
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:dev}  # 기본적으로 dev 환경에서 실행되도록 설정
 #    include: secret
