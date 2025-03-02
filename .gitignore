@@ -183,3 +183,11 @@ replay_pid*
 
 /src/main/generated/*
 /src/main/resources/application-secret.yml
+
+# 환경 변수 파일 (보안 중요)
+# dotenv environment variable files
+.env
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
