@@ -4,8 +4,8 @@ import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 @SpringBootApplication
 public class SideprojectApplication {
@@ -16,7 +16,7 @@ public class SideprojectApplication {
 
 		// activeProfile 변수 선언
 		String activeProfile;
-		
+
 		// 데이터베이스 환경변수 초기화
 		String setPropertyDbUrl = null;
 		String setPropertyDbUsername = null;
@@ -41,7 +41,7 @@ public class SideprojectApplication {
 			setPropertyDbUsername = dotenv.get("LOCAL_DB_USERNAME");
 			setPropertyDbPassword = dotenv.get("LOCAL_DB_PASSWORD");
 		}
-		
+
 		// 시스템 프로퍼티 적용
 		System.setProperty("DB_URL", setPropertyDbUrl);
 		System.setProperty("DB_USERNAME", setPropertyDbUsername);
@@ -60,12 +60,18 @@ public class SideprojectApplication {
 	 */
 	private static String getServerIp() {
 		try {
-			return InetAddress.getLocalHost().getHostAddress();
-		} catch (UnknownHostException e) {
+			// 1. 컨테이너 내부가 아니라 외부(공인) IP를 가져옴
+			Process process = Runtime.getRuntime().exec("curl -s ifconfig.me");
+			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+			String externalIp = reader.readLine();
+			process.waitFor();
+			return externalIp;
+		} catch (Exception e) {
 			e.printStackTrace();
 			return "UNKNOWN";
 		}
 	}
+
 
 	/**
 	 * IP 주소의 일부만 표시하여 노출을 방지하는 메서드 (예: 211.37.xxx.xxx)
