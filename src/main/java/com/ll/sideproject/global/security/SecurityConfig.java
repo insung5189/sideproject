@@ -29,7 +29,16 @@ public class SecurityConfig {
 
                 // 경로에 따른 접근 권한 설정
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/public/**", "/swagger-ui/**", "/v3/api-docs/**", "/login", "/register", "/oauth2/**").permitAll() // Swagger & OAuth2 경로 허용
+                        .requestMatchers(
+                                "/",
+                                "/public/**",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/login",
+                                "/register"
+// oauth2 개발 전. 임시로 해제
+//                                "/oauth2/**"
+                        ).permitAll() // Swagger & OAuth2 경로 허용
                         .anyRequest().authenticated() // 나머지 경로는 인증 필요
                 )
 
