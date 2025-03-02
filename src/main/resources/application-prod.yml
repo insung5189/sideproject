@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: ${DB_URL:jdbc:mariadb://mariadb_1:3306/sideproject}
-    username: ${DB_USERNAME:root}
-    password: ${DB_PASSWORD:defaultpassword}
+    url: ${PROD_DB_URL:jdbc:mariadb://mariadb_1:3306/sideproject}
+    username: ${PROD_DB_USERNAME:root}
+    password: ${PROD_DB_PASSWORD:defaultpassword}
     driver-class-name: org.mariadb.jdbc.Driver
     hikari:
       maximum-pool-size: 20       # [배포 환경] 커넥션 풀을 더 크게 설정
@@ -22,3 +22,8 @@ spring:
         use_sql_comments: false   # [배포 환경] 쿼리 주석 추가 안함
         jdbc:
           time_zone: UTC          # 타임존 설정
+custom:
+  genFileDirPath: /img_upload
+  resourcePath: file:///img_upload/
+  requestPath: /img_upload/**
+  originPath: /img_upload/

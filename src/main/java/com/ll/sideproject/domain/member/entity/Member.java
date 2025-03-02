@@ -46,6 +46,7 @@ public class Member extends BaseEntity {
     @Column(nullable = true, unique = true, length = 100)
     private String providerId; // 소셜 로그인 제공자의 고유 ID
 
+    @Builder.Default
     @Column(nullable = false)
     private boolean emailVerified = false; // 이메일 인증 여부
 

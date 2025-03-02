@@ -24,6 +24,7 @@ public class Article extends BaseEntity {
     @JoinColumn(name = "member_id", nullable = false)
     private Member author; // 작성자
 
+    @Builder.Default
     @Column(nullable = false)
     private int viewCount = 0; // 조회수
 
