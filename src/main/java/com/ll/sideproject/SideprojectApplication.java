@@ -6,6 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 @SpringBootApplication
 public class SideprojectApplication {
@@ -58,19 +60,54 @@ public class SideprojectApplication {
 	/**
 	 * 현재 실행 중인 서버의 IP를 가져오는 메서드
 	 */
+	/**
+	 * 현재 실행 중인 서버의 IP를 가져오는 메서드
+	 */
 	private static String getServerIp() {
 		try {
-			// 1. 컨테이너 내부가 아니라 외부(공인) IP를 가져옴
-			Process process = Runtime.getRuntime().exec("curl -s ifconfig.me");
-			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-			String externalIp = reader.readLine();
-			process.waitFor();
-			return externalIp;
+			URL url = new URL("https://checkip.amazonaws.com");
+			BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
+			String ip = reader.readLine();
+			reader.close();
+			return ip;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "UNKNOWN";
 		}
 	}
+//	private static String getServerIp() {
+//		try {
+//			URL url = new URL("https://ifconfig.me");
+//			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+//			connection.setRequestMethod("GET");
+//
+//			// User-Agent 추가
+//			connection.setRequestProperty("User-Agent", "Mozilla/5.0");
+//
+//			BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+//			String ip = reader.readLine();
+//			reader.close();
+//
+//			return ip;
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return "UNKNOWN";
+//		}
+//	}
+
+//	private static String getServerIp() {
+//		try {
+//			// 1. 컨테이너 내부가 아니라 외부(공인) IP를 가져옴
+//			Process process = Runtime.getRuntime().exec("curl -s ifconfig.me");
+//			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+//			String externalIp = reader.readLine();
+//			process.waitFor();
+//			return externalIp;
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return "UNKNOWN";
+//		}
+//	}
 
 
 	/**
