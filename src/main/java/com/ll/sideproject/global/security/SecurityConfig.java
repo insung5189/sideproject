@@ -19,8 +19,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                // CSRF 비활성화 (REST API에 적합)X
+                // CSRF 비활성화 (REST API에서는 일반적으로 비활성화)
                 .csrf(csrf -> csrf.disable())
+
+                // CORS 비활성화 (필요한 경우 설정 가능)
+                .cors(cors -> cors.disable())
 
                 // 세션 비활성화 (JWT 기반 인증을 사용하기 위해)
                 .sessionManagement(session -> session
@@ -35,21 +38,11 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
                                 "/login",
-                                "/register"
-// oauth2 개발 전. 임시로 해제
-//                                "/oauth2/**"
-                        ).permitAll() // Swagger & OAuth2 경로 허용
+                                "/register",
+                                "/error" // 추가: Spring Boot 기본 에러 페이지 접근 허용
+                        ).permitAll() // Swagger, 로그인 관련 경로 허용
                         .anyRequest().authenticated() // 나머지 경로는 인증 필요
                 )
-
-                // JWT 필터 추가 (추후 구현 예정)
-                //.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-
-                // OAuth2 로그인 설정 (소셜 로그인 고려 시)
-//                .oauth2Login(oauth2 -> oauth2
-//                        .loginPage("/login")
-//                        .defaultSuccessUrl("/")
-//                )
 
                 // 로그아웃 설정
                 .logout(logout -> logout
