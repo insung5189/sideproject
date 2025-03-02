@@ -6,7 +6,7 @@ spring:
     driver-class-name: org.mariadb.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: create-drop  # 테스트 실행 시 매번 DB 초기화
+      ddl-auto: create  # 테스트 실행 시 매번 DB 초기화
     show-sql: true
     properties:
       hibernate:
