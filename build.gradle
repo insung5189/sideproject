@@ -51,9 +51,3 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
-processResources {
-	from(sourceSets.main.resources.srcDirs) {
-		include '**/*.yml'
-		include '**/*.properties'
-	}
-}
