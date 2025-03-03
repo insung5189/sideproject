@@ -53,6 +53,8 @@ public class SideprojectApplication {
 		System.out.println("현재 서버 IP: " + currentIp); // IP 일부만 노출
 		System.out.println("현재 실행 환경: " + activeProfile);
 		System.out.println("DB_URL: " + System.getProperty("DB_URL"));
+		System.out.println("DB_USERNAME: " + System.getProperty("DB_USERNAME"));
+		System.out.println("DB_PASSWORD: " + System.getProperty("DB_PASSWORD"));
 
 		SpringApplication.run(SideprojectApplication.class, args);
 	}
