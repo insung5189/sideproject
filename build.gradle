@@ -53,6 +53,8 @@ tasks.named('test') {
 }
 
 processResources {
+	duplicatesStrategy = DuplicatesStrategy.INCLUDE // 중복 파일 허용
+
 	from(sourceSets.main.resources.srcDirs) {
 		include '**/*.yml'
 		include '**/*.properties'
